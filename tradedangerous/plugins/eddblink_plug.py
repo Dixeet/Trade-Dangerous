@@ -481,8 +481,10 @@ class ImportPlugin(plugins.ImportPluginBase):
                 self.importListings(self.liveListingsPath)
         
         if self.getOption("listings"):
-            self.tdenv.NOTE("Regenerating .prices file.")
-            cache.regeneratePricesFile(self.tdb, self.tdenv)
+            # Got some weird issues in some scenarios with td trying to regenerate the db, so force update modified time to try to resolve it
+            os.utime(self.tdb.dbFilename)
+            # self.tdenv.NOTE("Regenerating .prices file.")
+            # cache.regeneratePricesFile(self.tdb, self.tdenv)
         
         self.tdenv.NOTE("Import completed.")
         
