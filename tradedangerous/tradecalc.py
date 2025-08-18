@@ -237,6 +237,7 @@ class Route:
         longestNameLen = max(genSubValues())
         
         text = self.text(colorize)
+        csv = "\n\n"
         if detail >= 1:
             text += " (score: {:f})".format(self.score)
         text += "\n"
@@ -388,6 +389,7 @@ class Route:
         for i, hop in enumerate(hops):
             hopGainCr, hopTonnes = hop[1], 0
             purchases = ""
+            csv += "\n" + route[i].system.dbname + ";\"" + route[i].dbname + "\n----------------"
 
             def sortTrades(tradeOpt):
                 if tdenv.sortTrades == 'gain':
@@ -416,6 +418,8 @@ class Route:
                     age = age,
                 )
                 hopTonnes += qty
+                csv += "\n" + str(qty) + " x " + trade.name(detail)
+            csv += "\n================\""
             text += goalDistance(route[i])
             text += hopFmt.format(
                 station = decorateStation(route[i]),
@@ -465,7 +469,10 @@ class Route:
             credits = credits + gainCr,
             tongain = self.gpt
         )
+        csv += "\n" + lastStation.system.dbname + ";\"" + lastStation.dbname + "\n" + "{gain:n} cr ({tongain:n} cr/ton)".format(gain=gainCr, tongain=self.gpt) + "\""
         
+        if tdenv.csv:
+            text += csv
         return text
     
     def summary(self):

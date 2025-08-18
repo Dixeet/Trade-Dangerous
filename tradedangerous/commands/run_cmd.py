@@ -264,6 +264,11 @@ switches = [
         dest = 'sortTrades',
         default = 'totalGain',
     ),
+    ParseArgument('--csv',
+        help = 'Add a csv export text at the end',
+        default = False,
+        action = 'store_true',
+    ),
 ]
 
 ######################################################################
