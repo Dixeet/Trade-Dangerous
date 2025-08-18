@@ -259,6 +259,11 @@ switches = [
         help = '(Requires --to) Find the shortest route with the best gpt.',
         action = 'store_true',
     ),
+    ParseArgument('--sort-trades', '--st',
+        help = 'Sort trades [totalGain, gain], default: totalGain',
+        dest = 'sortTrades',
+        default = 'totalGain',
+    ),
 ]
 
 ######################################################################

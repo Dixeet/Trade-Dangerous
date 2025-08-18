@@ -388,9 +388,15 @@ class Route:
         for i, hop in enumerate(hops):
             hopGainCr, hopTonnes = hop[1], 0
             purchases = ""
+
+            def sortTrades(tradeOpt):
+                if tdenv.sortTrades == 'gain':
+                    return tradeOpt[0].gainCr
+                return tradeOpt[1] * tradeOpt[0].gainCr
+
             for (trade, qty) in sorted(
                     hop[0],
-                    key = lambda tradeOpt: tradeOpt[1] * tradeOpt[0].gainCr,
+                    key = sortTrades,
                     reverse = True
                     ):
                 # Are they within 30 minutes of each other?
