@@ -237,7 +237,7 @@ class Route:
         longestNameLen = max(genSubValues())
         
         text = self.text(colorize)
-        csv = "\n\n"
+        csv = "\n\nCSV\n###\n"
         if detail >= 1:
             text += " (score: {:f})".format(self.score)
         text += "\n"
