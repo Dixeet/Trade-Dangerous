@@ -90,6 +90,7 @@ class ImportPlugin(plugins.ImportPluginBase):
         'purge':        "Remove any empty systems that previously had fleet carriers.",
         'optimize':     "Optimize ('vacuum') database after processing.",
         'solo':         "Don't download crowd-sourced market data. (Implies '-O skipvend', supercedes '-O all', '-O clean', '-O listings'.)",
+        'regenprices':    "Regenerate .prices file when listings are updated"
     }
     
     def __init__(self, tdb, tdenv):
@@ -481,10 +482,11 @@ class ImportPlugin(plugins.ImportPluginBase):
                 self.importListings(self.liveListingsPath)
         
         if self.getOption("listings"):
+            if self.getOption("regenprices"):
+                self.tdenv.NOTE("Regenerating .prices file.")
+                cache.regeneratePricesFile(self.tdb, self.tdenv)
             # Got some weird issues in some scenarios with td trying to regenerate the db, so force update modified time to try to resolve it
             os.utime(self.tdb.dbFilename)
-            # self.tdenv.NOTE("Regenerating .prices file.")
-            # cache.regeneratePricesFile(self.tdb, self.tdenv)
         
         self.tdenv.NOTE("Import completed.")
         
